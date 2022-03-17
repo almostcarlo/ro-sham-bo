@@ -79,37 +79,46 @@ myHand.forEach(function(btn) {
     // console.log(obj.className)
 
     btn.addEventListener('click', function(){
-        if(myScore == 5 || comScore == 5){
-            return false;
-        }
 
-        //let myHand = window.prompt('select a hand (rock, paper, scissor)','')
+        if(hand.includes(btn.className.toLowerCase())){
 
-        // if(myHand == null) return alert('Game Cancelled.')
+            document.querySelector('.welcome').textContent='';  /* hide welcome message */
 
-        let comHand = computerPlay()
-        let result = roshambo(btn.className.toLowerCase(), comHand)
+            if(myScore == 5 || comScore == 5){
+                return false;
+            }
+
+            //let myHand = window.prompt('select a hand (rock, paper, scissor)','')
+
+            // if(myHand == null) return alert('Game Cancelled.')
+
+            
+            let comHand = computerPlay()
+            let result = roshambo(btn.className.toLowerCase(), comHand)
+            
+            resultCont.innerHTML += 'Round '+roundNo+': '
+
+            if(result == 'Draw'){
+                resultCont.innerHTML += 'Draw! '+btn.className+' == '+comHand+'<br>'
+            }else if(result == 'Win'){
+                myScore++
+                resultCont.innerHTML += 'You '+result+'! '+btn.className+' beats '+comHand+'<br>'
+            }else{
+                comScore++
+                resultCont.innerHTML += 'You '+result+'! '+comHand+' beats '+btn.className+'<br>'
+            }
         
-        resultCont.innerHTML += 'Round '+roundNo+': '
+            scoreCont.innerHTML = 'Score<br> You:'+myScore+'<br>Computer:'+comScore
 
-        if(result == 'Draw'){
-            resultCont.innerHTML += 'Draw! '+btn.className+' == '+comHand+'<br>'
-        }else if(result == 'Win'){
-            myScore++
-            resultCont.innerHTML += 'You '+result+'! '+btn.className+' beats '+comHand+'<br>'
+            if(myScore == 5){
+                scoreCont.innerHTML += '<br><br>YOU WIN!';
+            }else if(comScore == 5){
+                scoreCont.innerHTML += '<br><br>YOU LOSE!';
+            }
+
+            roundNo++;
         }else{
-            comScore++
-            resultCont.innerHTML += 'You '+result+'! '+comHand+' beats '+btn.className+'<br>'
+            location.reload();
         }
-    
-        scoreCont.innerHTML = 'Score<br> You:'+myScore+'<br>Computer:'+comScore
-
-        if(myScore == 5){
-            scoreCont.innerHTML += '<br><br>WINNER: YOU';
-        }else if(comScore == 5){
-            scoreCont.innerHTML += '<br><br>WINNER: COMPUTER';
-        }
-
-        roundNo++;
     })
 });
